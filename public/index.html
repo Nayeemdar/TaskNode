@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Your Product</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .container {
+            display: flex;
+            width: 70%;
+            height: 500px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .left-panel {
+            flex: 0 0 30%;
+            background-color: #1a1a1a;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        .right-panel {
+            flex: 0 0 70%;
+            padding: 30px;
+            position: relative;
+        }
+        h2 {
+            margin-top: 0;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            width: 200px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        select, input[type="text"], input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .upload-area {
+            border: 3px dashed #ccc;
+            padding: 40px;
+            text-align: center;
+            color: #888;
+            border-radius: 4px;
+        }
+        .submit-btn {
+            background-color: #e10600;
+            color: white;
+            border: none;
+            padding: 10px 50px;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            cursor: pointer;
+
+        }
+        .product-image {
+            width: 200px;
+            margin-bottom: 20px;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .form-group1{
+            grid-column: span 2;
+            width: 580px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <img src="/kettle.png" alt="Kettle" class="product-image">
+            <p>The Prism range of kettles and toasters is made for those who don't settle for the ordinary.</p>
+        </div>
+        <div class="right-panel">
+            <span class="close-btn">&times;</span>
+            <h2>Register your product</h2>
+            <form id="productForm" class="form-grid">
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" name="category">
+                        <option>Select Category</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Home Appliances">Home Appliances</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="model">Model</label>
+                    <select id="model" name="model">
+                        <option>Select Model</option>
+                        <option value="Kettle">Kettle</option>
+                        <option value="Toaster">Toaster</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="serial">Serial number *</label>
+                    <input type="text" id="serial" name="serialNumber" required>
+                </div>
+                <div class="form-group">
+                    <label for="date">Date of Invoice</label>
+                    <input type="date" id="date" name="invoiceDate">
+                </div>
+                <div class="form-group1">
+                    <label>Upload File</label>
+                    <div class="upload-area">
+                        <input type="file" id="fileUpload" name="fileUpload">
+                    </div>
+                </div>
+                <div class="form-group full-width">
+                    <button type="submit" class="submit-btn">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.getElementById('productForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const form = document.getElementById('productForm');
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('/register-product', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                alert(result.message);
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to register product. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>
